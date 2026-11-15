@@ -1,0 +1,10 @@
+{
+    "name": "webuild/theme-workbench",
+    "description": "Workbench host application for Webuild Themes",
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/"
+        }
+    }
+}
+

@@ -1,0 +1,41 @@
+#!/usr/bin/env php
+<?php
+
+define('LARAVEL_START', microtime(true));
+
+// Locate vendor autoload
+$autoloadFiles = [
+    __DIR__ . '/vendor/autoload.php',
+    __DIR__ . '/../webuild-app/vendor/autoload.php',
+    dirname(__DIR__, 1) . '/webuild-app/vendor/autoload.php',
+];
+
+$autoloadLoaded = false;
+foreach ($autoloadFiles as $file) {
+    if (file_exists($file)) {
+        require_once $file;
+        if (class_exists(Illuminate\Foundation\Application::class)) {
+            $autoloadLoaded = true;
+            break;
+        }
+    }
+}
+
+if (! $autoloadLoaded && ! class_exists(Illuminate\Foundation\Application::class)) {
+    fwrite(STDERR, "Laravel Application class tidak ditemukan. Jalankan 'composer install' terlebih dahulu.\n");
+    exit(1);
+}
+
+$app = require_once __DIR__ . '/workbench/bootstrap/app.php';
+
+$kernel = $app->make(Illuminate\Contracts\Console\Kernel::class);
+
+$status = $kernel->handle(
+    $input = new Symfony\Component\Console\Input\ArgvInput,
+    new Symfony\Component\Console\Output\ConsoleOutput
+);
+
+$kernel->terminate($input, $status);
+
+exit($status);
+

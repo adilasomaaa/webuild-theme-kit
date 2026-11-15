@@ -1,0 +1,9 @@
+/vendor/
+/workbench/database/database.sqlite
+/workbench/storage/
+/workbench/bootstrap/cache/
+/workbench/public/build
+.env
+.DS_Store
+
+/workbench/views/themes/
